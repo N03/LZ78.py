@@ -34,14 +34,19 @@ def add_zeros(code, nbr):
 def to_bits(data, h=False):
     len_ind = 1
     result = ''
+    first_round = True
     for word in data:
-      pre = add_zeros(bin(word[0])[2:], len_ind)
-      result += pre
-      len_ind = len(pre)
-      if h : result += ','
-      next_char = add_zeros(bin(ord(word[1]))[2:], 8)
-      result += next_char
-      if h : result += '|'
+        if not first_round:
+            pre = add_zeros(bin(word[0])[2:], len_ind)
+            result += pre
+            len_ind = len(pre)
+            if h and (word[1] != '') : result += ','
+        else:
+            first_round = False
+        
+        next_char = add_zeros(bin(ord(word[1]))[2:], 8) if not (word[1] == '') else ''
+        result += next_char
+        if h : result += '|'
     return result
 
 if __name__ == '__main__':
